@@ -1,6 +1,45 @@
+<p align="center">
+  <img src="assets/logo.jpg" alt="NP-LANG Logo" width="130" style="border-radius: 20px;" />
+</p>
+
 # NP-LANG: Natural Programming Language
 
 > **"Code at the speed of thought, in the language of your mind."**
+
+---
+
+## 💡 The Core Vision
+
+```mermaid
+flowchart TD
+    Mind["💭 Human Idea / Mental Model\n('I want to calculate user bonus based on score')"]
+
+    subgraph Projections ["🗣️ Express It Your Way"]
+        direction LR
+        P_EN["Natural English\n'If score > 10, add 5'"]
+        P_CC["Concise Code\n'score > 10: score += 5'"]
+        P_ES["Spanish Dialect\n'Si score > 10, sumar 5'"]
+        P_AI["AI Agent\nJSON AST Schema"]
+    end
+
+    subgraph Anchor ["🌲 The Universal Anchor (NP-IR)"]
+        AST["Canonical Abstract Semantic Tree\nUnambiguous, Mathematical Meaning"]
+    end
+
+    subgraph Power ["⚡ The Twin Execution Powers"]
+        Web["🌐 Web Playground\nInstant Testing & Human Tracing"]
+        Native["🚀 Bare-Metal AOT Binary\nHigh-Performance Native Machine Code"]
+    end
+
+    Mind --> Projections
+    Projections --> Anchor
+    Anchor --> Power
+
+    style Mind fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc
+    style Projections fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#e0e7ff
+    style Anchor fill:#064e3b,stroke:#10b981,stroke-width:3px,color:#ecfdf5
+    style Power fill:#831843,stroke:#f43f5e,stroke-width:2px,color:#fff1f2
+```
 
 ---
 

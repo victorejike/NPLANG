@@ -1,10 +1,28 @@
+<p align="center">
+  <img src="../../docs/assets/logo.jpg" alt="NP-LANG Logo" width="130" style="border-radius: 20px;" />
+</p>
+
 # NP-LANG Specification v0.1
 
-This document specifies the initial instruction set supported by the NP-LANG Core Engine and Interactive Playground.
+This document specifies the initial instruction set supported by the NP-LANG Core Engine and Interactive Playground. Every human surface syntax projects down to the formal Abstract Semantic Tree (AST) node structures detailed below.
 
 ---
 
 ## 1. Value Creation (Variable Declaration)
+
+### Canonical AST Node Tree
+```mermaid
+graph TD
+    Node["Node: VariableDeclaration"]
+    Node --> Id["identifier: 'score'"]
+    Node --> Type["dataType: 'number' | 'string' (inferred)"]
+    Node --> Init["initializer: Expression"]
+    Init --> Lit["NumberLiteral: 10"]
+
+    style Node fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5
+    style Id fill:#0f172a,stroke:#38bdf8,stroke-width:1px,color:#f8fafc
+    style Init fill:#1e1b4b,stroke:#818cf8,stroke-width:1px,color:#e0e7ff
+```
 
 ### Concise Syntax
 ```
@@ -32,6 +50,20 @@ Jẹ ki <id> jẹ <expr>.
 ---
 
 ## 2. Value Mutation (Assignment & Arithmetic)
+
+### Canonical AST Node Tree
+```mermaid
+graph TD
+    Node["Node: AssignmentStatement"]
+    Node --> Target["target: 'score'"]
+    Node --> Expr["expression: BinaryExpression (+)"]
+    Expr --> Left["left: Identifier ('score')"]
+    Expr --> Right["right: NumberLiteral (5)"]
+
+    style Node fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5
+    style Target fill:#0f172a,stroke:#38bdf8,stroke-width:1px,color:#f8fafc
+    style Expr fill:#1e1b4b,stroke:#818cf8,stroke-width:1px,color:#e0e7ff
+```
 
 ### Concise Syntax
 ```
@@ -66,6 +98,19 @@ Sọ <id> di <expr>.
 
 ## 3. Display / Output
 
+### Canonical AST Node Tree
+```mermaid
+graph TD
+    Node["Node: PrintStatement"]
+    Node --> Expr["expression: Expression"]
+    Expr --> Lit["StringLiteral: 'You won!'"]
+    Expr -.-> Alt["Identifier: score"]
+
+    style Node fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5
+    style Expr fill:#1e1b4b,stroke:#818cf8,stroke-width:1px,color:#e0e7ff
+    style Lit fill:#831843,stroke:#f43f5e,stroke-width:1px,color:#fff1f2
+```
+
 ### Concise Syntax
 ```
 show <expr>
@@ -93,6 +138,21 @@ Sọ <expr>.
 ---
 
 ## 4. Conditional Branching
+
+### Canonical AST Node Tree
+```mermaid
+graph TD
+    Node["Node: IfStatement"]
+    Node --> Cond["condition: BinaryExpression (>)"]
+    Cond --> C_Left["left: Identifier ('score')"]
+    Cond --> C_Right["right: NumberLiteral (10)"]
+    Node --> Then["thenBranch: StatementList"]
+    Then --> Stmt["PrintStatement ('Winner')"]
+
+    style Node fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5
+    style Cond fill:#1e1b4b,stroke:#818cf8,stroke-width:1px,color:#e0e7ff
+    style Then fill:#0f172a,stroke:#38bdf8,stroke-width:1px,color:#f8fafc
+```
 
 ### Concise Syntax
 ```
@@ -122,6 +182,20 @@ Nígbà tí <condition>, <statement>.
 
 ## 5. Repetition / Loops
 
+### Canonical AST Node Tree
+```mermaid
+graph TD
+    Node["Node: RepeatStatement"]
+    Node --> Count["count: Expression"]
+    Count --> Lit["NumberLiteral: 3"]
+    Node --> Body["body: StatementList"]
+    Body --> Stmt["PrintStatement ('Hello')"]
+
+    style Node fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5
+    style Count fill:#1e1b4b,stroke:#818cf8,stroke-width:1px,color:#e0e7ff
+    style Body fill:#0f172a,stroke:#38bdf8,stroke-width:1px,color:#f8fafc
+```
+
 ### Concise Syntax
 ```
 repeat <n>: <statement>
@@ -148,6 +222,18 @@ Tún ṣe ní ẹ̀mẹwàá <n>: <statement>.
 
 ## 6. Expressions and Comparisons
 
+### Canonical AST Node Tree (BinaryExpression)
+```mermaid
+graph TD
+    Node["Node: BinaryExpression"]
+    Node --> Left["left: Expression (Identifier: 'score')"]
+    Node --> Op["operator: '+' | '-' | '*' | '/' | '>' | '<' | '==' | '!='"]
+    Node --> Right["right: Expression (NumberLiteral: 5)"]
+
+    style Node fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#e0e7ff
+    style Op fill:#831843,stroke:#f43f5e,stroke-width:1px,color:#fff1f2
+```
+
 | Concept | Concise | Natural English | Yoruba |
 | :--- | :--- | :--- | :--- |
 | Greater than | `a > b` | `a is greater than b`, `a is more than b` | `a ju b lọ` |
@@ -158,3 +244,48 @@ Tún ṣe ní ẹ̀mẹwàá <n>: <statement>.
 | Subtraction | `a - b` | `a minus b` | `a yọ b` |
 | Multiplication | `a * b` | `a times b`, `a multiplied by b` | `a sọ di b` |
 | Division | `a / b` | `a divided by b` | `a pín sí b` |
+
+---
+
+## 7. Complete Program Compound AST Tree
+
+When multiple statements are written together, they assemble into an ordered `StatementList` within the root `Program` node:
+
+```mermaid
+graph TD
+    Root["🌲 Program (Root)"]
+
+    %% Child 1
+    Root --> N1["1: VariableDeclaration ('score' = 10)"]
+    N1 --> N1_Id["id: 'score'"]
+    N1 --> N1_Val["value: 10"]
+
+    %% Child 2
+    Root --> N2["2: AssignmentStatement ('score' += 5)"]
+    N2 --> N2_Id["target: 'score'"]
+    N2 --> N2_Expr["BinaryExpression (+)"]
+    N2_Expr --> N2_L["score"]
+    N2_Expr --> N2_R["5"]
+
+    %% Child 3
+    Root --> N3["3: IfStatement ('score' > 10)"]
+    N3 --> N3_Cond["BinaryExpression (>)"]
+    N3 --> N3_Body["StatementList"]
+    N3_Body --> N3_Print["PrintStatement ('You won!')"]
+
+    %% Child 4
+    Root --> N4["4: RepeatStatement (3 times)"]
+    N4 --> N4_Count["count: 3"]
+    N4 --> N4_Body["StatementList"]
+    N4_Body --> N4_Print["PrintStatement ('Bravo!')"]
+
+    %% Styling
+    style Root fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#f8fafc
+    style N1 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5
+    style N2 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5
+    style N3 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5
+    style N4 fill:#064e3b,stroke:#10b981,stroke-width:2px,color:#ecfdf5
+    style N2_Expr fill:#1e1b4b,stroke:#818cf8,stroke-width:1px,color:#e0e7ff
+    style N3_Cond fill:#1e1b4b,stroke:#818cf8,stroke-width:1px,color:#e0e7ff
+```
+
