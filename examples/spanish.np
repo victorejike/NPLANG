@@ -1,0 +1,4 @@
+Tengo un número llamado score. Es 10.
+Sumar 5 a score.
+Mostrar score.
+Si score es mayor que 10, mostrar "¡Ganaste!".

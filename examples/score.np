@@ -1,0 +1,4 @@
+I have a number called score. It is 10.
+Add 5 to score.
+Show score.
+If score is greater than 10, show "You won the game!".

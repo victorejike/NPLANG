@@ -1,0 +1,34 @@
+{
+  "locale": "es",
+  "name": "Spanish",
+  "declarations": [
+    "Tengo un número llamado {id}. Es {value}.",
+    "Crear {id} con valor {value}.",
+    "Sea {id} {value}."
+  ],
+  "mutations": {
+    "add": "Sumar {value} a {id}.",
+    "subtract": "Restar {value} de {id}.",
+    "multiply": "Multiplicar {id} por {value}.",
+    "divide": "Dividir {id} por {value}.",
+    "set": "Poner {id} en {value}."
+  },
+  "outputs": [
+    "Mostrar {expr}.",
+    "Imprimir {expr}."
+  ],
+  "conditions": {
+    "if": "Si {condition}, mostrar {expr}.",
+    "ifThen": "Si {condition}, entonces {statement}."
+  },
+  "loops": {
+    "repeat": "Repetir {count} veces: {statement}.",
+    "doTimes": "Hacer esto {count} veces: {statement}."
+  },
+  "comparisons": {
+    "gt": ["es mayor que", "es más que", ">"],
+    "lt": ["es menor que", "es más pequeño que", "<"],
+    "eq": ["es igual a", "es", "=="],
+    "neq": ["no es igual a", "no es", "!="]
+  }
+}

@@ -1,0 +1,1 @@
+/home/victor2/NPLANG/compiler/target/release/nplc: /home/victor2/NPLANG/compiler/src/ast.rs /home/victor2/NPLANG/compiler/src/codegen_c.rs /home/victor2/NPLANG/compiler/src/main.rs /home/victor2/NPLANG/compiler/src/parser.rs

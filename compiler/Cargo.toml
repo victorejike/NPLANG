@@ -1,0 +1,10 @@
+[package]
+name = "nplc"
+version = "0.1.0"
+edition = "2024"
+authors = ["VICTOR EJIKE <victorejiki@gmail.com>"]
+description = "Native Ahead-of-Time (AOT) compiler for NP-LANG"
+
+[dependencies]
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"

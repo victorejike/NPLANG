@@ -1,0 +1,35 @@
+{
+  "locale": "en",
+  "name": "English",
+  "declarations": [
+    "I have a number called {id}. It is {value}.",
+    "Create {id} with value {value}.",
+    "Let {id} be {value}."
+  ],
+  "mutations": {
+    "add": "Add {value} to {id}.",
+    "subtract": "Subtract {value} from {id}.",
+    "multiply": "Multiply {id} by {value}.",
+    "divide": "Divide {id} by {value}.",
+    "set": "Set {id} to {value}."
+  },
+  "outputs": [
+    "Show {expr}.",
+    "Display {expr}.",
+    "Tell me {expr}."
+  ],
+  "conditions": {
+    "if": "If {condition}, show {expr}.",
+    "ifThen": "If {condition}, then {statement}."
+  },
+  "loops": {
+    "repeat": "Repeat {count} times: {statement}.",
+    "doTimes": "Do this {count} times: {statement}."
+  },
+  "comparisons": {
+    "gt": ["is greater than", "is more than", ">"],
+    "lt": ["is less than", "is smaller than", "<"],
+    "eq": ["is equal to", "is", "=="],
+    "neq": ["is not equal to", "is not", "!="]
+  }
+}

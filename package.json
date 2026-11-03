@@ -1,0 +1,25 @@
+{
+  "name": "nplang-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "description": "NP-LANG: Natural Programming Language - Bridging human expression, concise coding, and native compilation",
+  "workspaces": [
+    "packages/*",
+    "playground"
+  ],
+  "scripts": {
+    "test": "npm run test -w packages/language-core",
+    "build": "npm run build -w packages/language-core && npm run build -w playground",
+    "dev": "npm run dev -w playground"
+  },
+  "keywords": [
+    "nplang",
+    "natural-language",
+    "compiler",
+    "programming-language",
+    "multilingual",
+    "ai-native"
+  ],
+  "author": "VICTOR EJIKE <victorejiki@gmail.com>",
+  "license": "MIT"
+}

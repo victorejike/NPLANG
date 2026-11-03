@@ -1,0 +1,31 @@
+{
+  "locale": "yo",
+  "name": "Yoruba",
+  "declarations": [
+    "Mo ní nọ́mbà kan tí à ń pè ní {id}. Ó jẹ́ {value}.",
+    "Jẹ ki {id} jẹ {value}.",
+    "Ṣẹ̀dá {id} pẹ̀lú iye {value}."
+  ],
+  "mutations": {
+    "add": "Fi {value} kún {id}.",
+    "subtract": "Yọ {value} kúrò nínú {id}.",
+    "set": "Sọ {id} di {value}."
+  },
+  "outputs": [
+    "Fi {expr} hàn.",
+    "Sọ fún mi {expr}.",
+    "Sọ {expr}."
+  ],
+  "conditions": {
+    "if": "Bí {condition} bá rí bẹ́ẹ̀, {statement}."
+  },
+  "loops": {
+    "repeat": "Ṣe èyí ní ẹ̀mẹwàá {count}: {statement}."
+  },
+  "comparisons": {
+    "gt": ["bá ju", "ju", "lọ"],
+    "lt": ["kere ju", "lọ"],
+    "eq": ["dọ́gba pẹ̀lú"],
+    "neq": ["kò dọ́gba pẹ̀lú"]
+  }
+}
