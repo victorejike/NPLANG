@@ -12,6 +12,9 @@ import {
   ThumbsUp,
   Globe,
   Code2,
+  Download,
+  Database,
+  X,
 } from 'lucide-react';
 import {
   runNplang,
@@ -97,6 +100,20 @@ export default function App() {
   const [wouldUseReal, setWouldUseReal] = useState<string>('yes');
   const [feedbackNotes, setFeedbackNotes] = useState<string>('');
   const [feedbackSubmitted, setFeedbackSubmitted] = useState<boolean>(false);
+  const [feedbackSending, setFeedbackSending] = useState<boolean>(false);
+
+  // Admin / Feedback viewer state
+  const [showAdminModal, setShowAdminModal] = useState<boolean>(false);
+  const [storedFeedbacks, setStoredFeedbacks] = useState<any[]>(() => {
+    try {
+      return JSON.parse(localStorage.getItem('nplang_user_feedback') || '[]');
+    } catch {
+      return [];
+    }
+  });
+  const [customWebhookUrl, setCustomWebhookUrl] = useState<string>(
+    localStorage.getItem('nplang_webhook_url') || ''
+  );
 
   // Run the code
   const handleRun = () => {
@@ -161,8 +178,10 @@ export default function App() {
     }
   };
 
-  const handleFeedbackSubmit = (e: React.FormEvent) => {
+  const handleFeedbackSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setFeedbackSending(true);
+
     const feedbackData = {
       preferredStyle,
       verbosityFeeling,
@@ -170,14 +189,97 @@ export default function App() {
       feedbackNotes,
       timestamp: new Date().toISOString(),
     };
+
+    // 1. Save locally to browser
     try {
       const existing = JSON.parse(localStorage.getItem('nplang_user_feedback') || '[]');
       existing.push(feedbackData);
       localStorage.setItem('nplang_user_feedback', JSON.stringify(existing));
+      setStoredFeedbacks(existing);
     } catch (err) {
       console.warn('Failed to save to local storage', err);
     }
+
+    // 2. Submit to Netlify Forms (automatic when hosted on Netlify)
+    try {
+      const formParams = new URLSearchParams();
+      formParams.append('form-name', 'nplang-feedback');
+      formParams.append('preferredStyle', preferredStyle);
+      formParams.append('verbosityFeeling', verbosityFeeling);
+      formParams.append('wouldUseReal', wouldUseReal);
+      formParams.append('feedbackNotes', feedbackNotes);
+
+      await fetch('/', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formParams.toString(),
+      });
+    } catch {
+      // Quietly continue if not hosted on Netlify yet
+    }
+
+    // 3. Submit to optional external webhook (e.g. Discord, Slack, Formspree, or custom Render API)
+    const targetWebhook = customWebhookUrl.trim();
+    if (targetWebhook) {
+      try {
+        await fetch(targetWebhook, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(feedbackData),
+        });
+      } catch (err) {
+        console.warn('Webhook delivery failed:', err);
+      }
+    }
+
+    setFeedbackSending(false);
     setFeedbackSubmitted(true);
+  };
+
+  const exportFeedbackAsCSV = () => {
+    if (storedFeedbacks.length === 0) {
+      alert('No feedback entries to export.');
+      return;
+    }
+    const headers = ['Timestamp', 'PreferredStyle', 'VerbosityFeeling', 'WouldUseReal', 'FeedbackNotes'];
+    const rows = storedFeedbacks.map((f: any) => [
+      `"${f.timestamp || ''}"`,
+      `"${f.preferredStyle || ''}"`,
+      `"${f.verbosityFeeling || ''}"`,
+      `"${f.wouldUseReal || ''}"`,
+      `"${(f.feedbackNotes || '').replace(/"/g, '""')}"`,
+    ]);
+    const csvContent = 'data:text/csv;charset=utf-8,' + [headers.join(','), ...rows.map((r: any) => r.join(','))].join('\n');
+    const encoded = encodeURI(csvContent);
+    const link = document.createElement('a');
+    link.setAttribute('href', encoded);
+    link.setAttribute('download', `nplang_user_feedback_${Date.now()}.csv`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const exportFeedbackAsJSON = () => {
+    if (storedFeedbacks.length === 0) {
+      alert('No feedback entries to export.');
+      return;
+    }
+    const blob = new Blob([JSON.stringify(storedFeedbacks, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.setAttribute('href', url);
+    link.setAttribute('download', `nplang_user_feedback_${Date.now()}.json`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
+  const clearFeedbackData = () => {
+    if (confirm('Clear all feedback entries stored in this browser?')) {
+      localStorage.removeItem('nplang_user_feedback');
+      setStoredFeedbacks([]);
+    }
   };
 
   return (
@@ -220,6 +322,19 @@ export default function App() {
         </div>
 
         <div className="flex items-center space-x-3 text-xs text-slate-400">
+          <button
+            onClick={() => setShowAdminModal(true)}
+            className="flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 transition"
+            title="View collected feedback data"
+          >
+            <Database className="w-3.5 h-3.5 text-emerald-400" />
+            <span>Feedback Data</span>
+            {storedFeedbacks.length > 0 && (
+              <span className="px-1.5 py-0.2 rounded-full bg-emerald-500/20 text-emerald-400 text-[10px] font-bold">
+                {storedFeedbacks.length}
+              </span>
+            )}
+          </button>
           <span className="hidden sm:inline bg-slate-800/60 px-2 py-1 rounded border border-slate-700/50">
             Shortcut: <kbd className="text-slate-200 font-mono">Ctrl+Enter</kbd>
           </span>
@@ -607,15 +722,107 @@ export default function App() {
 
                 <button
                   type="submit"
-                  className="w-full py-1.5 rounded bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-medium transition text-center"
+                  disabled={feedbackSending}
+                  className="w-full py-1.5 rounded bg-emerald-700 hover:bg-emerald-600 border border-emerald-600 text-white font-medium transition text-center disabled:opacity-50"
                 >
-                  Submit Feedback
+                  {feedbackSending ? 'Submitting...' : 'Submit Feedback'}
                 </button>
               </form>
             )}
           </div>
         </div>
       </div>
+
+      {/* Admin / Feedback Data Modal */}
+      {showAdminModal && (
+        <div className="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-slate-900 border border-slate-800 rounded-xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl overflow-hidden animate-fade-in">
+            <div className="p-4 border-b border-slate-800 flex items-center justify-between bg-slate-900/80">
+              <div className="flex items-center gap-2">
+                <Database className="w-5 h-5 text-emerald-400" />
+                <h2 className="font-bold text-sm text-white">Collected User Feedback ({storedFeedbacks.length} Submissions)</h2>
+              </div>
+              <button
+                onClick={() => setShowAdminModal(false)}
+                className="p-1 rounded hover:bg-slate-800 text-slate-400 hover:text-white transition"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+
+            <div className="p-4 bg-slate-950/60 border-b border-slate-800 text-xs space-y-3">
+              <div className="flex flex-wrap items-center justify-between gap-2">
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={exportFeedbackAsCSV}
+                    className="px-3 py-1.5 rounded bg-emerald-600 hover:bg-emerald-500 text-white font-medium flex items-center gap-1.5 shadow-sm transition"
+                  >
+                    <Download className="w-3.5 h-3.5" /> Export as CSV
+                  </button>
+                  <button
+                    onClick={exportFeedbackAsJSON}
+                    className="px-3 py-1.5 rounded bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 font-medium flex items-center gap-1.5 transition"
+                  >
+                    <Download className="w-3.5 h-3.5" /> Export as JSON
+                  </button>
+                </div>
+                <button
+                  onClick={clearFeedbackData}
+                  className="text-red-400 hover:text-red-300 transition text-[11px]"
+                >
+                  Clear Browser Records
+                </button>
+              </div>
+
+              <div className="pt-2 border-t border-slate-800/80">
+                <label className="text-[11px] text-slate-400 block mb-1">
+                  Optional Remote Webhook (For Render / Formspree / Discord / Custom API):
+                </label>
+                <input
+                  type="text"
+                  value={customWebhookUrl}
+                  onChange={(e) => {
+                    setCustomWebhookUrl(e.target.value);
+                    localStorage.setItem('nplang_webhook_url', e.target.value);
+                  }}
+                  placeholder="https://formspree.io/f/xyz or Discord Webhook URL"
+                  className="w-full bg-slate-900 border border-slate-700 rounded px-2.5 py-1 text-slate-200 text-xs font-mono"
+                />
+                <p className="text-[10px] text-slate-500 mt-1">
+                  💡 If hosted on <strong>Netlify</strong>, every submission automatically synchronizes to your <strong>Netlify Forms Dashboard</strong> with zero setup required.
+                </p>
+              </div>
+            </div>
+
+            <div className="flex-1 p-4 overflow-y-auto space-y-2 text-xs">
+              {storedFeedbacks.length === 0 ? (
+                <div className="text-center py-10 text-slate-500">
+                  No feedback entries recorded in this browser yet. Fill out the survey form in the bottom right to record a test response!
+                </div>
+              ) : (
+                storedFeedbacks.map((f: any, idx: number) => (
+                  <div key={idx} className="p-3 rounded-lg bg-slate-950 border border-slate-800/80 space-y-1">
+                    <div className="flex items-center justify-between text-slate-400 text-[11px]">
+                      <span className="font-semibold text-emerald-400">Response #{idx + 1}</span>
+                      <span>{new Date(f.timestamp).toLocaleString()}</span>
+                    </div>
+                    <div className="grid grid-cols-3 gap-2 py-1 text-[11px] text-slate-300">
+                      <div><span className="text-slate-500">Preferred:</span> {f.preferredStyle}</div>
+                      <div><span className="text-slate-500">Verbosity:</span> {f.verbosityFeeling}</div>
+                      <div><span className="text-slate-500">Would Use:</span> {f.wouldUseReal}</div>
+                    </div>
+                    {f.feedbackNotes && (
+                      <div className="bg-slate-900/60 p-2 rounded text-slate-200 text-xs border border-slate-800/50 mt-1">
+                        "{f.feedbackNotes}"
+                      </div>
+                    )}
+                  </div>
+                ))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

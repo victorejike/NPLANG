@@ -11,6 +11,14 @@
   </head>
   <body class="bg-slate-950 text-slate-100 min-h-screen">
     <div id="root"></div>
+    <!-- Netlify form detection hook for collecting user feedback without a backend -->
+    <form name="nplang-feedback" data-netlify="true" netlify-honeypot="bot-field" hidden>
+      <input type="hidden" name="form-name" value="nplang-feedback" />
+      <input type="text" name="preferredStyle" />
+      <input type="text" name="verbosityFeeling" />
+      <input type="text" name="wouldUseReal" />
+      <textarea name="feedbackNotes"></textarea>
+    </form>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
