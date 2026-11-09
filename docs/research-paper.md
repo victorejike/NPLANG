@@ -3,9 +3,13 @@
 **Author**: Victor Ejike  
 **Affiliation**: NP-LANG Open Source Project  
 **Contact**: victorejiki@gmail.com  
+**DOI**: [10.5281/zenodo.24080764](https://doi.org/10.5281/zenodo.24080764)  
+**Permanent Zenodo Record**: [https://zenodo.org/records/24080764](https://zenodo.org/records/24080764)  
 **Repository**: [https://github.com/victorejike/NPLANG](https://github.com/victorejike/NPLANG)  
 **Live Prototype**: [https://vocal-tartufo-edf572.netlify.app/](https://vocal-tartufo-edf572.netlify.app/)  
 **Keywords**: Natural Language Programming, Multi-Projection Semantics, Abstract Semantic Trees (AST), Multilingual Programming Languages, AI Code Generation, Ahead-of-Time Compilation, Language Workbenches.
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.24080764.svg)](https://doi.org/10.5281/zenodo.24080764)
 
 ---
 
@@ -311,3 +315,26 @@ NP-LANG is completely open source under the MIT License. Contributions, peer rev
 19. Simonyi, C., Christerson, M., & Clifford, S. (2006). Intentional software. In *Proceedings of the 21st ACM SIGPLAN Conference on Object-Oriented Programming Systems, Languages, and Applications (OOPSLA '06)* (pp. 451–464).
 20. Yin, P., & Neubig, G. (2017). A syntactic neural model for general-purpose code generation. In *Proceedings of the 55th Annual Meeting of the Association for Computational Linguistics (ACL '17)* (pp. 440–450).
 21. Völter, M., Siegmund, J., Berger, T., & Kolb, B. (2014). Towards user-friendly projectional editors. In *Proceedings of the 7th International Conference on Software Language Engineering (SLE '14)* (pp. 41–61).
+
+---
+
+## How to Cite This Paper
+
+### BibTeX
+```bibtex
+@article{ejike2026multiprojection,
+  author       = {Victor Ejike},
+  title        = {Multi-Projection Semantics: Decoupling Human Syntax from Canonical Intermediate Representations for Multilingual and AI-Native Programming},
+  journal      = {Zenodo Preprint},
+  year         = {2026},
+  month        = {November},
+  doi          = {10.5281/zenodo.24080764},
+  url          = {https://doi.org/10.5281/zenodo.24080764}
+}
+```
+
+### APA
+```text
+Ejike, V. (2026). Multi-Projection Semantics: Decoupling Human Syntax from Canonical Intermediate Representations for Multilingual and AI-Native Programming. Zenodo. https://doi.org/10.5281/zenodo.24080764
+```
+

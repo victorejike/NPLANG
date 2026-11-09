@@ -11,6 +11,7 @@
 
 <p align="center">
   <a href="https://vocal-tartufo-edf572.netlify.app/"><img src="https://img.shields.io/badge/Playground-Live%20on%20Netlify-10b981?style=for-the-badge&logo=netlify" alt="Playground Live" /></a>
+  <a href="https://doi.org/10.5281/zenodo.24080764"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.24080764-blue?style=for-the-badge" alt="DOI" /></a>
   <img src="https://img.shields.io/badge/Status-v0.1%20Prototype-blue?style=for-the-badge" alt="Status" />
   <img src="https://img.shields.io/badge/License-MIT-purple?style=for-the-badge" alt="License" />
 </p>
@@ -323,6 +324,28 @@ cargo build --release --manifest-path compiler/Cargo.toml
 
 ---
 
+## Research & Academic Citation
+
+NP-LANG's theoretical foundation and 20-paper literature survey are published as an open-access preprint on Zenodo:
+
+> **Ejike, V. (2026).** *Multi-Projection Semantics: Decoupling Human Syntax from Canonical Intermediate Representations for Multilingual and AI-Native Programming.* Zenodo. [https://doi.org/10.5281/zenodo.24080764](https://doi.org/10.5281/zenodo.24080764)
+
+### BibTeX
+```bibtex
+@article{ejike2026multiprojection,
+  author       = {Victor Ejike},
+  title        = {Multi-Projection Semantics: Decoupling Human Syntax from Canonical Intermediate Representations for Multilingual and AI-Native Programming},
+  journal      = {Zenodo Preprint},
+  year         = {2026},
+  month        = {November},
+  doi          = {10.5281/zenodo.24080764},
+  url          = {https://doi.org/10.5281/zenodo.24080764}
+}
+```
+
+---
+
 ## License
 
 MIT © 2026 VICTOR EJIKE — see [LICENSE](LICENSE) for details.
+
