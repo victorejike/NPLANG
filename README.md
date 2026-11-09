@@ -250,8 +250,9 @@ nplang/
 ├── netlify.toml               # 1-click Netlify hosting configuration
 ├── render.yaml                # 1-click Render hosting configuration
 │
-├── docs/                      # Philosophy and planning
+├── docs/                      # Philosophy, planning, and academic research
 │   ├── assets/                # Visual branding, logos, and banners
+│   ├── research-paper.md      # Academic research paper & 20-paper literature survey
 │   ├── vision.md              # Long-term vision and design principles
 │   ├── current-status.md      # Honest snapshot of working features
 │   ├── language-design.md     # Architecture and multi-projection design
