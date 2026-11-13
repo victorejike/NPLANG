@@ -25,11 +25,14 @@ We are exploring a different way to write programs: using clear, human-readable 
 NP-LANG is an open-source project. You can try the early playground, test its syntax, improve the language specification, or contribute to its implementation.
 
 > **Project Status**: Experimental. The current playground demonstrates an early language prototype; native compilation and performance are still under active research and development.
+> 
+> 📖 **New to the project?** Read our **[Community Overview & Master Guide](docs/community-overview.md)** for a complete walkthrough of our vision, working milestones, published research paper, and how to get involved or sponsor our research!
 
 ---
 
 ## Quick Navigation
 
+- [Community Overview & Master Guide](docs/community-overview.md)
 - [Try the Live Playground](#1-try-the-playground)
 - [How NP-LANG Works: The Tree Model](#2-how-np-lang-works-the-tree-model)
 - [System Architecture](#3-system-architecture)
@@ -253,6 +256,7 @@ nplang/
 │
 ├── docs/                      # Philosophy, planning, and academic research
 │   ├── assets/                # Visual branding, logos, and banners
+│   ├── community-overview.md  # Complete project intro, research summary & sponsorship guide
 │   ├── research-paper.md      # Academic research paper & 20-paper literature survey
 │   ├── vision.md              # Long-term vision and design principles
 │   ├── current-status.md      # Honest snapshot of working features
