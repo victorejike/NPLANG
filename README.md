@@ -256,6 +256,7 @@ nplang/
 │
 ├── docs/                      # Philosophy, planning, and academic research
 │   ├── assets/                # Visual branding, logos, and banners
+│   ├── PRD.md                 # Product Requirements Document (Full System Blueprint)
 │   ├── community-overview.md  # Complete project intro, research summary & sponsorship guide
 │   ├── research-paper.md      # Academic research paper & 20-paper literature survey
 │   ├── vision.md              # Long-term vision and design principles
